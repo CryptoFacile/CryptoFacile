@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoFacile"
         mc:Ignorable="d"
-        Title="Wallet" Height="221.132" Width="341.666" ResizeMode="NoResize" Closed="Window_Closed">
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ClipToBounds="False"
+        MouseDown="TitleBar_MouseDown"
+        Title="Wallet" Background="#FF2D2D30" Height="239.132" Width="341.666" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.Resources>
         <SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="#FFE5E5E5"/>
         <SolidColorBrush x:Key="SliderThumb.MouseOver.Background" Color="#FFDCECFC"/>
@@ -364,95 +368,146 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="BlackBnt" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="#FF252526" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    <Grid Background="#FF2D2D30">
-        <Label HorizontalContentAlignment="Center" Content="Portefeuille Personnel" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="300" Margin="13,0,0,0">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.056"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label Panel.ZIndex="1"  HorizontalContentAlignment="Center" x:Name="txtslider2" Margin="25,143,0,11" Foreground="White" FontSize="11" HorizontalAlignment="Left" Width="298" Content="15 %"/>
-        <ProgressBar Maximum="100" Value="{Binding Value, ElementName=SL2, UpdateSourceTrigger=PropertyChanged}" Height="19" Margin="67,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="224" Style="{DynamicResource ProgressBarYelow}"/>
-        <Slider Maximum="100" x:Name="SL2" Margin="61,121,0,0" Style="{DynamicResource SliderStyle1}" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="234" ValueChanged="SL2_ValueChanged" Value="10"/>
-        <Label x:Name="Wallet_user_Copy" Content="0xef398bcaafa06ba789d0acccfc78394d6ded2ce0" Foreground="#00b300"  HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="28.166,39.828,0,0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="183" FontSize="8" Visibility="Hidden"/>
-        <Label Content="ETH :" Margin="0.19,37.684,0,48.994" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="40.174" d:LayoutOverrides="HorizontalAlignment" Visibility="Hidden">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.822"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <TextBox MaxLines="1" x:Name="txt_XMR" Height="23" TextWrapping="Wrap" Text="" Margin="38,24,0,0" Background="#FF101011" Foreground="White" HorizontalAlignment="Left" Width="285" VerticalAlignment="Top" Style="{DynamicResource TextBoxDark}" BorderBrush="#FFABADB3"/>
-        <Label Content="XHV :" Margin="0,22,0,0" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="41" Height="26" VerticalAlignment="Top">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.268"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label HorizontalContentAlignment="Center" Content="Don de développement" Margin="38.372,54.297,37.816,0" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" Visibility="Hidden">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.822"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label HorizontalContentAlignment="Center" Content="Dons de développement" Margin="23,94,0,0" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="298">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.062"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Button Content="ici" Style="{StaticResource Link}" Margin="228,165,0,0" Foreground="#FFCD1209" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Label HorizontalContentAlignment="Right" Content="Pas d'adresse? cliquer" Margin="44,159,0,0" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="183">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.062"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <TextBox MaxLines="1" x:Name="txtETH" Height="23" TextWrapping="Wrap" Text="" Margin="38,52,0,0" Background="#FF101011" Foreground="White" HorizontalAlignment="Left" Width="285" VerticalAlignment="Top" Style="{DynamicResource TextBoxDark}" BorderBrush="#FFABADB3"/>
-        <Label Content="ETH :" Margin="0,50,0,0" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="41" Height="26" VerticalAlignment="Top">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.268"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <TextBox MaxLines="1" x:Name="txtETC" Height="23" TextWrapping="Wrap" Text="" Margin="38,78,0,0" Background="#FF101011" Foreground="White" HorizontalAlignment="Left" Width="285" VerticalAlignment="Top" Style="{DynamicResource TextBoxDark}" BorderBrush="#FFABADB3"/>
-        <Label Content="ETC :" Margin="0,76,0,0" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="41" Height="26" VerticalAlignment="Top">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.268"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-    </Grid>
+    <DockPanel ClipToBounds="False" x:Name="RootWindow">
+        <DockPanel x:Name="TitleBar" Margin="0,0,0,219" Width="342">
+            <Button x:Name="CloseButton" Content="X"
+                Click="CloseButton_Click"                 
+                DockPanel.Dock="Right" Style="{DynamicResource BlackBnt}" Foreground="White" Width="20" />
+            <TextBlock HorizontalAlignment="Center" Foreground="White"><Run Text="Crypto Facile"/></TextBlock>
+        </DockPanel>
+        <Grid Margin="1,0,-1,0" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="22.5"/>
+                <RowDefinition Height="2.5"/>
+                <RowDefinition Height="0*"/>
+            </Grid.RowDefinitions>
+            <Label HorizontalContentAlignment="Center" Content="Portefeuille Personnel" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="300" Margin="-328,2,0,-28" Grid.Row="2">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="0.056"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <ListBox Background="#FF2D2D30" Foreground="White"  x:Name="listPools" HorizontalContentAlignment="Stretch" Margin="-331,3,16,-117" Grid.Row="2">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="75" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Grid.Column="1" Text="{Binding Custom}" />
+                            <Button Grid.Column="2" Content="Editer" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Label Panel.ZIndex="1"  HorizontalContentAlignment="Center" x:Name="txtslider2" Margin="-318,167,0,-193" Foreground="White" FontSize="11" HorizontalAlignment="Left" Width="298" Content="15 %" Grid.Row="2"/>
+            <ProgressBar Maximum="100" Value="{Binding Value, ElementName=SL2, UpdateSourceTrigger=PropertyChanged}" Height="19" Margin="-276,144,0,-163" VerticalAlignment="Top" HorizontalAlignment="Left" Width="224" Style="{DynamicResource ProgressBarYelow}" Grid.Row="2"/>
+            <Slider Maximum="100" x:Name="SL2" Margin="-282,145,0,-163" Style="{DynamicResource SliderStyle1}" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="234" ValueChanged="SL2_ValueChanged" Value="10" Grid.Row="2"/>
+            <Label x:Name="Wallet_user_Copy" Content="0xef398bcaafa06ba789d0acccfc78394d6ded2ce0" Foreground="#00b300"  HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="28,15,-211,-38" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="183" FontSize="8" Visibility="Hidden" Grid.Row="2"/>
+            <Label Content="ETH :" Margin="0,13,-40,-13" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="40" Visibility="Hidden" Grid.Row="2">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-0.822"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label HorizontalContentAlignment="Center" Content="Don de développement" Margin="38,29,-38,-55" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" Visibility="Hidden" Grid.Row="2">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-0.822"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label HorizontalContentAlignment="Center" Content="Dons de développement" Margin="-320,118,0,-144" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="298" Grid.Row="2">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="0.062"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Button Content="ici" Style="{StaticResource Link}" Margin="230,158,-230,-158" Foreground="#FFCD1209" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="0" Grid.Row="2" Width="0"/>
+            <Label HorizontalContentAlignment="Right" Content="Pas d'adresse? cliquer" Margin="-298,183,0,-209" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="183" Grid.Row="2">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="0.062"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+        </Grid>
+    </DockPanel>
 </Window>
