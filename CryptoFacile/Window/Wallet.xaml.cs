@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CryptoFacile.Models;
+using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace CryptoFacile
@@ -31,7 +33,6 @@ namespace CryptoFacile
             if (IsRunning)
                 DisableControl();
         }
-
         private void DisableControl()
         {
             SL2.IsEnabled = false;
@@ -47,6 +48,7 @@ namespace CryptoFacile
             int hashGive = (int)e.NewValue;
             txtslider2.Content = $"{hashGive} %";
         }
+
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
@@ -70,6 +72,21 @@ namespace CryptoFacile
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
+        }
+        private void EditClick(object sender, RoutedEventArgs e)
+        {
+            var baseobj = sender as FrameworkElement;
+            var myObject = baseobj.DataContext as PoolConfig;
+            Console.WriteLine(myObject.Name);
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var baseobj = sender as FrameworkElement;
+            var myObject = baseobj.DataContext as PoolConfig;
+            lblCustom.Text =
+                $"Nom : {myObject.Name}\n" +
+                $"Custom String :  {myObject.Custom}\n";
         }
     }
 }

@@ -9,7 +9,7 @@
         AllowsTransparency="True"
         ClipToBounds="False"
         MouseDown="TitleBar_MouseDown"
-        Title="Wallet" Background="#FF2D2D30" Height="239.132" Width="341.666" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="Wallet" Background="#FF2D2D30" Height="239.132" Width="446.666" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.Resources>
         <SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="#FFE5E5E5"/>
         <SolidColorBrush x:Key="SliderThumb.MouseOver.Background" Color="#FFDCECFC"/>
@@ -425,57 +425,36 @@
         </Style>
     </Window.Resources>
     <DockPanel ClipToBounds="False" x:Name="RootWindow">
-        <DockPanel x:Name="TitleBar" Margin="0,0,0,219" Width="342">
+        <DockPanel x:Name="TitleBar" Margin="0,0,0,219" Width="447">
             <Button x:Name="CloseButton" Content="X"
                 Click="CloseButton_Click"                 
                 DockPanel.Dock="Right" Style="{DynamicResource BlackBnt}" Foreground="White" Width="20" />
             <TextBlock HorizontalAlignment="Center" Foreground="White"><Run Text="Crypto Facile"/></TextBlock>
         </DockPanel>
-        <Grid Margin="1,0,-1,0" VerticalAlignment="Top">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="22.5"/>
-                <RowDefinition Height="2.5"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="0"/>
                 <RowDefinition Height="0*"/>
             </Grid.RowDefinitions>
-            <Label HorizontalContentAlignment="Center" Content="Portefeuille Personnel" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="300" Margin="-328,2,0,-28" Grid.Row="2">
-                <Label.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="0.056"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Label.RenderTransform>
-            </Label>
-            <ListBox Background="#FF2D2D30" Foreground="White"  x:Name="listPools" HorizontalContentAlignment="Stretch" Margin="-331,3,16,-117" Grid.Row="2">
+            <ListBox Background="#FF2D2D30" Foreground="White"  x:Name="listPools" HorizontalContentAlignment="Stretch" Margin="-434,0,0,-121" HorizontalAlignment="Left" Width="104" Grid.RowSpan="2" Grid.Row="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,2">
+                        <Grid Margin="0,2" MouseDown="Grid_MouseDown" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="75" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="90" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Name}" />
-                            <TextBlock Grid.Column="1" Text="{Binding Custom}" />
-                            <Button Grid.Column="2" Content="Editer" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Label Panel.ZIndex="1"  HorizontalContentAlignment="Center" x:Name="txtslider2" Margin="-318,167,0,-193" Foreground="White" FontSize="11" HorizontalAlignment="Left" Width="298" Content="15 %" Grid.Row="2"/>
-            <ProgressBar Maximum="100" Value="{Binding Value, ElementName=SL2, UpdateSourceTrigger=PropertyChanged}" Height="19" Margin="-276,144,0,-163" VerticalAlignment="Top" HorizontalAlignment="Left" Width="224" Style="{DynamicResource ProgressBarYelow}" Grid.Row="2"/>
-            <Slider Maximum="100" x:Name="SL2" Margin="-282,145,0,-163" Style="{DynamicResource SliderStyle1}" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="234" ValueChanged="SL2_ValueChanged" Value="10" Grid.Row="2"/>
+            <TextBlock x:Name="lblCustom" Margin="-304,0,0,-121" TextWrapping="Wrap" VerticalAlignment="Top" Height="123" Foreground="White" HorizontalAlignment="Left" Width="286" Grid.RowSpan="2" Grid.Row="1"/>
+            <Label Panel.ZIndex="1"  HorizontalContentAlignment="Center" x:Name="txtslider2" Margin="-366,162,0,-188" Foreground="White" FontSize="11" HorizontalAlignment="Left" Width="298" Content="15 %" Grid.Row="2"/>
+            <ProgressBar Maximum="100" Value="{Binding Value, ElementName=SL2, UpdateSourceTrigger=PropertyChanged}" Height="19" Margin="-324,139,0,-157" VerticalAlignment="Top" HorizontalAlignment="Left" Width="224" Style="{DynamicResource ProgressBarYelow}" Grid.Row="2"/>
+            <Slider Maximum="100" x:Name="SL2" Margin="-330,140,0,-157" Style="{DynamicResource SliderStyle1}" Height="18" VerticalAlignment="Top" HorizontalAlignment="Left" Width="234" ValueChanged="SL2_ValueChanged" Value="10" Grid.Row="2"/>
             <Label x:Name="Wallet_user_Copy" Content="0xef398bcaafa06ba789d0acccfc78394d6ded2ce0" Foreground="#00b300"  HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="28,15,-211,-38" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="183" FontSize="8" Visibility="Hidden" Grid.Row="2"/>
             <Label Content="ETH :" Margin="0,13,-40,-13" RenderTransformOrigin="0.5,0.5" Foreground="white" HorizontalAlignment="Left" Width="40" Visibility="Hidden" Grid.Row="2">
-                <Label.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-0.822"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Label.RenderTransform>
             </Label>
             <Label HorizontalContentAlignment="Center" Content="Don de développement" Margin="38,29,-38,-55" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" Visibility="Hidden" Grid.Row="2">
                 <Label.RenderTransform>
@@ -487,7 +466,7 @@
                     </TransformGroup>
                 </Label.RenderTransform>
             </Label>
-            <Label HorizontalContentAlignment="Center" Content="Dons de développement" Margin="-320,118,0,-144" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="298" Grid.Row="2">
+            <Label HorizontalContentAlignment="Center" Content="Dons de développement" Margin="-368,113,0,-138" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="298" Grid.Row="2">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -497,8 +476,8 @@
                     </TransformGroup>
                 </Label.RenderTransform>
             </Label>
-            <Button Content="ici" Style="{StaticResource Link}" Margin="230,158,-230,-158" Foreground="#FFCD1209" Click="Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Height="0" Grid.Row="2" Width="0"/>
-            <Label HorizontalContentAlignment="Right" Content="Pas d'adresse? cliquer" Margin="-298,183,0,-209" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="183" Grid.Row="2">
+            <Button Content="ici" Style="{StaticResource Link}"  Foreground="#FFCD1209" Click="Button_Click" VerticalAlignment="Top" Height="14" Margin="-163,184,135,-197" Width="28" Grid.Row="2"/>
+            <Label HorizontalContentAlignment="Right" Content="Pas d'adresse? cliquer" Margin="-346,178,0,-203" RenderTransformOrigin="0.5,0.5" Foreground="white" Height="26" VerticalAlignment="Top" HorizontalAlignment="Left" Width="184" Grid.Row="2">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>

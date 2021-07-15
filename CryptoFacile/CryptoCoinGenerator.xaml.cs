@@ -262,7 +262,7 @@ namespace CryptoFacile
                     SpeedWatchdogGpu = 120;
                     string[] Svitesse_GPU = $"{ e.Data.Substring(11, e.Data.Length - 11)}".Split(' ');
                     SsharesGPU = Svitesse_GPU[3].Substring(0, Svitesse_GPU[3].Length - 1);
-                    double gpu_speed = 0;
+                    double gpu_speed;
                     if (double.TryParse(Svitesse_GPU[0], NumberStyles.Any, CultureInfo.InvariantCulture, out gpu_speed))
                         fvitesse_GPU = gpu_speed;
                     GpuValues.Add(fvitesse_GPU);
@@ -306,7 +306,7 @@ namespace CryptoFacile
                     {
                         SpeedWatchdogCpu = 120;
                         string[] Svitesse_CPU = e.Data.ToString().Split(' ');
-                        double cpu_speed = 0;
+                        double cpu_speed;
                         if (double.TryParse(Svitesse_CPU[9],NumberStyles.Any, CultureInfo.InvariantCulture,out cpu_speed))
                             fvitesse_CPU = cpu_speed / 1000;
                         CpuValues.Add(fvitesse_CPU);
