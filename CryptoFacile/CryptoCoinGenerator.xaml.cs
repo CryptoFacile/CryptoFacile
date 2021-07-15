@@ -22,7 +22,6 @@ namespace CryptoFacile
     public partial class MainWindow : Window
     {
         App _app = ((App)System.Windows.Application.Current);
-        private ApplicationConfig AppConf;
         private bool IsRunning = false;
         private WindowState m_storedWindowState;
         private Queue<string> ConsoleOutputQueue = new Queue<string>();
@@ -47,11 +46,9 @@ namespace CryptoFacile
             App.NIconDClick += NIconDClick;
             App.NIconClick += nIconClick;
             InitializeComponent();
-            AppConf = _app.AppConf;
-            chkBox_cpu_active.IsChecked = AppConf.CpuActive;
-            chkBox_gpu_active.IsChecked = AppConf.GpuActive;
-            sld_cpu.Value = AppConf.CpuSpeed;
-            _Wallet = new Wallet(AppConf, false);
+            chkBox_cpu_active.IsChecked = _app.AppConf.CpuActive;
+            chkBox_gpu_active.IsChecked = _app.AppConf.GpuActive;
+            sld_cpu.Value = _app.AppConf.CpuSpeed;
 
             ViewDataContex.HashRates = new SeriesCollection
             {
@@ -146,9 +143,9 @@ namespace CryptoFacile
         {
             if (IsRunning == true)
             {
-                if (AppConf.CpuActive)
+                if (_app.AppConf.CpuActive)
                     ExecXmRigStop();
-                if (AppConf.GpuActive)
+                if (_app.AppConf.GpuActive)
                     ExecPhoenixMinerStop();
                 bnt_connect.Content = "Start";
                 ViewDataContex.ConsoleOutput.ConsoleOutput.Add("Aucune action en cours.");
@@ -161,27 +158,27 @@ namespace CryptoFacile
             else
             {
 
-                AppConf.CpuActive = chkBox_cpu_active.IsChecked ?? false;
-                AppConf.GpuActive = chkBox_gpu_active.IsChecked ?? false;
-                AppConf.CpuSpeed = int.TryParse(sld_cpu.Value.ToString("00"), out AppConf.CpuSpeed) ? AppConf.CpuSpeed : 75;
+                _app.AppConf.CpuActive = chkBox_cpu_active.IsChecked ?? false;
+                _app.AppConf.GpuActive = chkBox_gpu_active.IsChecked ?? false;
+                _app.AppConf.CpuSpeed = int.TryParse(sld_cpu.Value.ToString("00"), out _app.AppConf.CpuSpeed) ? _app.AppConf.CpuSpeed : 75;
 
-                if (AppConf.CpuActive || AppConf.GpuActive)
+                if (_app.AppConf.CpuActive || _app.AppConf.GpuActive)
                 {
                     GridStart.Visibility = Visibility.Hidden;
-                    Cpu_Data.Visibility = AppConf.CpuActive ? Visibility.Visible : Visibility.Hidden;
-                    Gpu_Data.Visibility = AppConf.GpuActive ? Visibility.Visible : Visibility.Hidden;
+                    Cpu_Data.Visibility = _app.AppConf.CpuActive ? Visibility.Visible : Visibility.Hidden;
+                    Gpu_Data.Visibility = _app.AppConf.GpuActive ? Visibility.Visible : Visibility.Hidden;
                     IsRunning = true;
                     sld_cpu.IsEnabled = false;
                     ViewDataContex.ConsoleOutput.ConsoleOutput.Add("Le minage de cryptomonaie a commencé");
                     bnt_connect.Content = "Stop";
 
-                    if (AppConf.CpuActive)
+                    if (_app.AppConf.CpuActive)
                     {
                         StartCpuMining();
                         ViewDataContex.ConsoleOutput.ConsoleOutput.Add($"Info : puissance CPU réglé à {(int)sld_cpu.Value}%");
                     }
 
-                    if (AppConf.GpuActive)
+                    if (_app.AppConf.GpuActive)
                         StartGpuMining();
                 }
                 else
@@ -201,7 +198,7 @@ namespace CryptoFacile
         private void StartCpuMining()  //MINING CPU
         {
             string S_pause_active = "";
-            //string argumetns = $"-o gulf.moneroocean.stream:10128 -u 85wYEY7y6NJS2aAVWVC6g1c88jbbk7mJuEk2jeMpfxZWEB149Xe5A3ebpzen8Z5Nn76QxR4C6PrpRW1sqfYJns3yLfM4EvF -p Nirad~cn-heavy/xhv --cpu-priority 1 --cpu-max-threads-hint={AppConf.CpuSpeed} {S_pause_active} --donate-level=0 --donate-over-proxy=0 ";
+            //string argumetns = $"-o gulf.moneroocean.stream:10128 -u 85wYEY7y6NJS2aAVWVC6g1c88jbbk7mJuEk2jeMpfxZWEB149Xe5A3ebpzen8Z5Nn76QxR4C6PrpRW1sqfYJns3yLfM4EvF -p Nirad~cn-heavy/xhv --cpu-priority 1 --cpu-max-threads-hint={_app._app.AppConf.CpuSpeed} {S_pause_active} --donate-level=0 --donate-over-proxy=0 ";
             string argumetns = " --donate-level 0 -o ca.haven.herominers.com:10452 -u hvxy8BKUGwgFQA4dW3KfGXVGLgKRBvnPv2QN7FQwjNDNiTX2W8mo6qN785BBC2AkrsK1hLFuam55iQ5a3HyME7MA2Zd7EUrAzY -p Nirad -a cn-heavy/xhv -k";
             int process_pourcent = (int)sld_cpu.Value;
 
@@ -349,8 +346,7 @@ namespace CryptoFacile
         }
         private void Wallet_Click(object sender, RoutedEventArgs e)
         {
-            if (!_Wallet.IsLoaded)
-                _Wallet = new Wallet(AppConf,IsRunning);
+            _Wallet = new Wallet(_app.AppConf,IsRunning);
             _Wallet.Show();
             _Wallet.WindowState = WindowState.Normal;
             _Wallet.Focus();

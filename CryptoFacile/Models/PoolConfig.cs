@@ -74,5 +74,10 @@ namespace CryptoFacile.Models
             poolConfig.Custom = PoolConf.Read("Custom", "PoolConfig");
             return poolConfig;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
